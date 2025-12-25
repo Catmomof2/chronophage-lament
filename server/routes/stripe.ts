@@ -1,6 +1,7 @@
 import express from "express";
 import Stripe from "stripe";
 import { DONATION_PRODUCTS } from "../../shared/products";
+import { sendThankYouEmail } from "../lib/email.js";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -40,8 +41,9 @@ router.post("/create-checkout-session", async (req, res) => {
       success_url: `${origin}/donate?success=true&amount=${amount}`,
       cancel_url: `${origin}/donate?canceled=true`,
       customer_email: customerEmail || undefined,
+      billing_address_collection: "auto",
       metadata: {
-        customer_name: customerName || "Anonymous",
+        customer_name: customerName || "Friend",
         customer_email: customerEmail || "anonymous",
         donation_amount: amount.toString(),
       },
@@ -94,6 +96,22 @@ router.post(
           customer: session.customer_email,
           metadata: session.metadata,
         });
+        
+        // Send thank you email
+        if (session.customer_email && session.amount_total) {
+          const amount = session.amount_total / 100; // Convert from cents to dollars
+          const name = session.metadata?.customer_name || "Friend";
+          
+          await sendThankYouEmail({
+            to: session.customer_email,
+            name,
+            amount,
+            donationId: session.id,
+          });
+          
+          console.log(`Thank you email sent to ${session.customer_email}`);
+        }
+        
         // Here you could save donation records to a database if needed
         break;
       }
