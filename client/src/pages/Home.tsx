@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { novelData } from "@/lib/novelData";
 import { Search, Book, User, Clock } from "lucide-react";
+import TableOfContents from "@/components/TableOfContents";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 
@@ -71,6 +72,7 @@ export default function Home() {
               </p>
               
               <div className="flex flex-wrap gap-4">
+                <TableOfContents />
                 <Button 
                   size="lg" 
                   className="font-accent text-lg px-8 py-6 rounded-2xl bg-[oklch(0.45_0.15_240)] hover:bg-[oklch(0.50_0.14_240)] text-[oklch(0.98_0.01_90)] shadow-lg hover:shadow-xl transition-all duration-300"

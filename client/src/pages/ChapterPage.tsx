@@ -5,6 +5,7 @@
 import { Button } from "@/components/ui/button";
 import { novelData } from "@/lib/novelData";
 import { ArrowLeft, ArrowRight, Home } from "lucide-react";
+import TableOfContents from "@/components/TableOfContents";
 import { useParams, useLocation } from "wouter";
 import { useEffect } from "react";
 
@@ -60,7 +61,7 @@ export default function ChapterPage() {
               Chapter {chapter.id} of {novelData.chapters.length}
             </div>
             
-            <div className="w-24" /> {/* Spacer for alignment */}
+            <TableOfContents currentChapterId={chapterId} />
           </div>
         </div>
       </header>
