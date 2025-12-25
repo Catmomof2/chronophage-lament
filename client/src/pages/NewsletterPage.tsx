@@ -214,6 +214,33 @@ export default function NewsletterPage() {
             </div>
           </div>
 
+          {/* Exclusive Wallpapers Promotion */}
+          <Card className="mt-16 p-8 md:p-12 bg-gradient-to-br from-[oklch(0.45_0.15_240)] to-[oklch(0.50_0.14_240)] border-none shadow-2xl text-white">
+            <div className="text-center space-y-6">
+              <div className="inline-flex items-center gap-3 text-5xl">
+                <Cat className="w-12 h-12" />
+                <Sparkles className="w-10 h-10" />
+                <Cat className="w-12 h-12" />
+              </div>
+              <h2 className="font-display text-3xl md:text-4xl font-bold">
+                Exclusive Subscriber Wallpapers
+              </h2>
+              <p className="text-lg text-white/90 max-w-2xl mx-auto">
+                Meet Luna, Kafka, and Dali—Amanda's three feline muses, immortalized in stunning surrealist digital art. 
+                Download exclusive desktop wallpapers as a thank you for supporting her work.
+              </p>
+              <Link href="/wallpapers">
+                <Button
+                  size="lg"
+                  className="bg-white text-[oklch(0.45_0.15_240)] hover:bg-white/90 font-accent font-semibold shadow-xl"
+                >
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  View Exclusive Wallpapers
+                </Button>
+              </Link>
+            </div>
+          </Card>
+
           {/* Footer CTA */}
           <div className="mt-16 text-center space-y-6">
             <div className="inline-flex items-center gap-2 text-4xl">

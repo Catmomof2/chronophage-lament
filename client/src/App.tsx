@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import ChapterPage from "./pages/ChapterPage";
 import DonatePage from "./pages/DonatePage";
 import NewsletterPage from "./pages/NewsletterPage";
+import WallpapersPage from "./pages/WallpapersPage";
 
 
 function Router() {
@@ -17,6 +18,7 @@ function Router() {
       <Route path={"/chapter/:id"} component={ChapterPage} />
       <Route path="/donate" component={DonatePage} />
       <Route path="/newsletter" component={NewsletterPage} />
+      <Route path="/wallpapers" component={WallpapersPage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
