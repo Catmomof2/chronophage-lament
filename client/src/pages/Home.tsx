@@ -108,6 +108,20 @@ export default function Home() {
                   About Author
                 </Button>
               </div>
+              
+              {/* Donate Button */}
+              <div className="mt-6">
+                <Button 
+                  variant="outline"
+                  className="font-accent px-6 py-3 rounded-xl border-2 border-[oklch(0.60_0.15_20)] text-[oklch(0.60_0.15_20)] hover:bg-[oklch(0.60_0.15_20)] hover:text-white shadow-md transition-all duration-300 hover:scale-105"
+                  onClick={() => window.location.href = '/donate'}
+                >
+                  <svg className="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                  </svg>
+                  Support Amanda's Work
+                </Button>
+              </div>
             </div>
           </div>
         </div>
