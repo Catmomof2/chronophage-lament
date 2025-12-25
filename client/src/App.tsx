@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import ChapterPage from "./pages/ChapterPage";
 import DonatePage from "./pages/DonatePage";
+import NewsletterPage from "./pages/NewsletterPage";
 
 
 function Router() {
@@ -15,6 +16,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/chapter/:id"} component={ChapterPage} />
       <Route path="/donate" component={DonatePage} />
+      <Route path="/newsletter" component={NewsletterPage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
