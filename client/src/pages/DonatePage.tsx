@@ -5,22 +5,75 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Home, Heart, Coffee, Cat, Sparkles } from "lucide-react";
-import { Link } from "wouter";
-import { useState } from "react";
+import { Home, Heart, Coffee, Cat, Sparkles, Loader2 } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { createCheckoutSession } from "@/lib/stripe";
 
 export default function DonatePage() {
   const [customAmount, setCustomAmount] = useState("");
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [location] = useLocation();
 
   const presetAmounts = [5, 10, 25, 50, 100];
 
-  const handleDonate = (amount: number) => {
-    // In a real implementation, this would integrate with a payment processor
-    toast.success(`Thank you for your ${amount > 0 ? `$${amount}` : 'generous'} donation! 🐱💕`, {
-      description: "Your support helps keep the kitties fed and the stories flowing."
-    });
+  // Check for success/cancel in URL params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true') {
+      const amount = params.get('amount');
+      toast.success(`Thank you for your $${amount} donation! 🐱💕`, {
+        description: "Your support helps keep the kitties fed and the stories flowing.",
+        duration: 6000,
+      });
+      // Clean up URL
+      window.history.replaceState({}, '', '/donate');
+    } else if (params.get('canceled') === 'true') {
+      toast.info("Donation canceled", {
+        description: "No worries! You can donate anytime.",
+      });
+      // Clean up URL
+      window.history.replaceState({}, '', '/donate');
+    }
+  }, [location]);
+
+  const handleDonate = async (amount: number) => {
+    if (amount < 0.50) {
+      toast.error("Minimum donation amount is $0.50");
+      return;
+    }
+
+    setIsProcessing(true);
+    setSelectedAmount(amount);
+
+    try {
+      toast.info("Redirecting to secure checkout...", {
+        description: "You'll be taken to Stripe to complete your donation.",
+      });
+
+      const checkoutUrl = await createCheckoutSession({
+        amount,
+        customerEmail: undefined, // Can be collected in Stripe checkout
+        customerName: undefined,
+      });
+
+      // Open Stripe checkout in new tab
+      window.open(checkoutUrl, '_blank');
+      
+      toast.success("Checkout opened in new tab", {
+        description: "Please complete your donation in the new window.",
+      });
+    } catch (error: any) {
+      console.error("Donation error:", error);
+      toast.error("Failed to process donation", {
+        description: error.message || "Please try again later.",
+      });
+    } finally {
+      setIsProcessing(false);
+      setSelectedAmount(null);
+    }
   };
 
   const handleCustomDonate = () => {
@@ -104,17 +157,19 @@ export default function DonatePage() {
                   {presetAmounts.map((amount) => (
                     <Button
                       key={amount}
-                      onClick={() => {
-                        setSelectedAmount(amount);
-                        handleDonate(amount);
-                      }}
+                      onClick={() => handleDonate(amount)}
+                      disabled={isProcessing}
                       className={`h-24 text-2xl font-bold font-accent transition-all duration-300 ${
                         selectedAmount === amount
                           ? 'bg-gradient-to-br from-[oklch(0.45_0.15_240)] to-[oklch(0.50_0.14_240)] text-white scale-105 shadow-xl'
                           : 'bg-gradient-to-br from-[oklch(0.92_0.01_240)] to-[oklch(0.88_0.01_240)] text-[oklch(0.45_0.15_240)] hover:scale-105 hover:shadow-lg'
                       }`}
                     >
-                      ${amount}
+                      {isProcessing && selectedAmount === amount ? (
+                        <Loader2 className="w-6 h-6 animate-spin" />
+                      ) : (
+                        `$${amount}`
+                      )}
                     </Button>
                   ))}
                 </div>
@@ -141,15 +196,21 @@ export default function DonatePage() {
                       value={customAmount}
                       onChange={(e) => setCustomAmount(e.target.value)}
                       className="pl-8 h-14 text-xl font-accent border-[oklch(0.88_0.01_240)] focus:border-[oklch(0.45_0.15_240)]"
-                      min="0"
+                      min="0.50"
                       step="0.01"
+                      disabled={isProcessing}
                     />
                   </div>
                   <Button
                     onClick={handleCustomDonate}
+                    disabled={isProcessing}
                     className="h-14 px-8 font-accent font-semibold bg-gradient-to-r from-[oklch(0.45_0.15_240)] to-[oklch(0.50_0.14_240)] hover:from-[oklch(0.50_0.14_240)] hover:to-[oklch(0.55_0.13_240)] text-white shadow-lg"
                   >
-                    Donate
+                    {isProcessing ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      "Donate"
+                    )}
                   </Button>
                 </div>
               </div>
@@ -208,7 +269,10 @@ export default function DonatePage() {
           {/* Additional Info */}
           <div className="mt-12 text-center space-y-4">
             <p className="text-sm text-[oklch(0.50_0.03_240)]">
-              All donations are processed securely. You'll receive a confirmation email after your contribution.
+              All donations are processed securely through Stripe. You'll receive a confirmation email after your contribution.
+            </p>
+            <p className="text-xs text-[oklch(0.55_0.03_240)]">
+              Test mode: Use card number 4242 4242 4242 4242 with any future expiry date and any CVC.
             </p>
             <Link href="/">
               <Button 
