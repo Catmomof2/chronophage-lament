@@ -8,18 +8,36 @@ import { ArrowLeft, ArrowRight, Home } from "lucide-react";
 import TableOfContents from "@/components/TableOfContents";
 import ShareButton from "@/components/ShareButton";
 import MetaTags from "@/components/MetaTags";
+import PopularityBadge from "@/components/PopularityBadge";
+import ViewCounter from "@/components/ViewCounter";
 import { useParams, useLocation } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { trackChapterView, getChapterStats, getChapterRank } from "@/lib/analytics";
 
 export default function ChapterPage() {
   const { id } = useParams<{ id: string }>();
   const [, setLocation] = useLocation();
+  const [viewCount, setViewCount] = useState(0);
+  const [rank, setRank] = useState<number | null>(null);
   
   const chapterId = parseInt(id || "1");
   const chapter = novelData.chapters.find(c => c.id === chapterId);
   const currentIndex = novelData.chapters.findIndex(c => c.id === chapterId);
   const prevChapter = currentIndex > 0 ? novelData.chapters[currentIndex - 1] : null;
   const nextChapter = currentIndex < novelData.chapters.length - 1 ? novelData.chapters[currentIndex + 1] : null;
+
+  // Track view and update analytics
+  useEffect(() => {
+    if (chapterId) {
+      // Track the view
+      trackChapterView(chapterId);
+      
+      // Update local state
+      const stats = getChapterStats(chapterId);
+      setViewCount(stats.views);
+      setRank(getChapterRank(chapterId));
+    }
+  }, [chapterId]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -87,12 +105,20 @@ export default function ChapterPage() {
           {/* Chapter Header */}
           <div className="mb-16 text-center space-y-6">
             <div className="inline-block">
-              <div className="font-accent text-sm text-[oklch(0.50_0.03_240)] tracking-[0.3em] uppercase mb-4">
-                Chapter {chapter.id}
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="font-accent text-sm text-[oklch(0.50_0.03_240)] tracking-[0.3em] uppercase">
+                  Chapter {chapter.id}
+                </div>
+                {rank && rank <= 3 && (
+                  <PopularityBadge rank={rank} views={viewCount} />
+                )}
               </div>
-              <h1 className="font-display text-5xl md:text-6xl font-bold text-[oklch(0.25_0.02_240)] mb-6 liquid-text">
+              <h1 className="font-display text-5xl md:text-6xl font-bold text-[oklch(0.25_0.02_240)] mb-4 liquid-text">
                 {chapter.title}
               </h1>
+              {viewCount > 0 && (
+                <ViewCounter views={viewCount} className="justify-center mb-6" />
+              )}
               <div className="w-24 h-1 bg-gradient-to-r from-[oklch(0.45_0.15_240)] to-[oklch(0.65_0.10_60)] mx-auto rounded-full" />
             </div>
           </div>

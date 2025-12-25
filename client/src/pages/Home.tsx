@@ -9,11 +9,20 @@ import { novelData } from "@/lib/novelData";
 import { Search, Book, User, Clock } from "lucide-react";
 import TableOfContents from "@/components/TableOfContents";
 import MetaTags from "@/components/MetaTags";
-import { useState, useMemo } from "react";
+import PopularityBadge from "@/components/PopularityBadge";
+import ViewCounter from "@/components/ViewCounter";
+import { useState, useMemo, useEffect } from "react";
+import { getAllChapterStats, getChapterRank, type ChapterStats } from "@/lib/analytics";
 import { Link } from "wouter";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [chapterStats, setChapterStats] = useState<ChapterStats[]>([]);
+
+  // Load analytics data
+  useEffect(() => {
+    setChapterStats(getAllChapterStats());
+  }, []);
 
   const filteredChapters = useMemo(() => {
     if (!searchQuery.trim()) return novelData.chapters;
@@ -153,6 +162,12 @@ export default function Home() {
                     <div className="flex items-center gap-3 text-[oklch(0.50_0.03_240)]">
                       <Clock className="w-5 h-5" />
                       <span className="font-accent text-sm tracking-wider">Chapter {chapter.id}</span>
+                      {(() => {
+                        const rank = getChapterRank(chapter.id);
+                        return rank && rank <= 3 ? (
+                          <PopularityBadge rank={rank} variant="compact" />
+                        ) : null;
+                      })()}
                     </div>
                     
                     <h3 className="font-display text-2xl font-bold text-[oklch(0.25_0.02_240)] liquid-text">
@@ -162,6 +177,13 @@ export default function Home() {
                     <p className="text-[oklch(0.50_0.03_240)] line-clamp-3 leading-relaxed">
                       {chapter.content.substring(0, 150)}...
                     </p>
+                    
+                    {(() => {
+                      const stats = chapterStats.find(s => s.chapterId === chapter.id);
+                      return stats && stats.views > 0 ? (
+                        <ViewCounter views={stats.views} />
+                      ) : null;
+                    })()}
                     
                     <div className="pt-4">
                       <span className="inline-flex items-center gap-2 text-[oklch(0.45_0.15_240)] font-accent font-semibold group-hover:gap-4 transition-all duration-300">
