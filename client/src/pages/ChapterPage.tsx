@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { novelData } from "@/lib/novelData";
 import { ArrowLeft, ArrowRight, Home } from "lucide-react";
 import TableOfContents from "@/components/TableOfContents";
+import ShareButton from "@/components/ShareButton";
+import MetaTags from "@/components/MetaTags";
 import { useParams, useLocation } from "wouter";
 import { useEffect } from "react";
 
@@ -44,6 +46,12 @@ export default function ChapterPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[oklch(0.98_0.005_240)] to-[oklch(0.94_0.008_240)]">
+      <MetaTags
+        title={`${chapter.title} - The Chronophage's Lament`}
+        description={chapter.content.substring(0, 200) + '...'}
+        url={`${window.location.origin}/chapter/${chapterId}`}
+      />
+      
       {/* Header with Navigation */}
       <header className="sticky top-0 z-50 bg-[oklch(0.99_0.003_240)]/80 backdrop-blur-lg border-b border-[oklch(0.88_0.01_240)] shadow-sm">
         <div className="container py-4">
@@ -61,7 +69,14 @@ export default function ChapterPage() {
               Chapter {chapter.id} of {novelData.chapters.length}
             </div>
             
-            <TableOfContents currentChapterId={chapterId} />
+            <div className="flex items-center gap-2">
+              <ShareButton 
+                chapterId={chapterId} 
+                chapterTitle={chapter.title}
+                variant="ghost"
+              />
+              <TableOfContents currentChapterId={chapterId} />
+            </div>
           </div>
         </div>
       </header>
@@ -112,8 +127,23 @@ export default function ChapterPage() {
             />
           </div>
 
-          {/* Navigation Buttons */}
+          {/* Share Section */}
           <div className="mt-16 pt-12 border-t border-[oklch(0.88_0.01_240)]">
+            <div className="flex justify-center mb-8">
+              <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-[oklch(0.94_0.008_240)]">
+                <span className="font-accent text-[oklch(0.50_0.03_240)]">Enjoyed this chapter?</span>
+                <ShareButton 
+                  chapterId={chapterId} 
+                  chapterTitle={chapter.title}
+                  variant="default"
+                  size="sm"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="mt-8">
             <div className="flex justify-between items-center gap-4">
               {prevChapter ? (
                 <Button

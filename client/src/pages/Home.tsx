@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { novelData } from "@/lib/novelData";
 import { Search, Book, User, Clock } from "lucide-react";
 import TableOfContents from "@/components/TableOfContents";
+import MetaTags from "@/components/MetaTags";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 
@@ -27,6 +28,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <MetaTags
+        title="The Chronophage's Lament by Amanda Hines"
+        description="A philosophical journey through time, memory, and transformation. Follow Kai, a being of melting clockwork, as it navigates a surreal landscape to confront the Chronitect at the source of the river of time."
+        url={window.location.origin}
+        type="website"
+      />
+      
       {/* Hero Section with Diagonal Cut */}
       <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-[oklch(0.98_0.005_240)] to-[oklch(0.92_0.01_240)]">
         {/* Background Image with Parallax Effect */}
