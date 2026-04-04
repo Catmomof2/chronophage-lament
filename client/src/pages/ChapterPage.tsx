@@ -147,7 +147,7 @@ export default function ChapterPage() {
           {/* Decorative Divider */}
           <div className="my-16 flex justify-center">
             <img 
-              src="/images/chapter-divider.png" 
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663262892493/4dPsFenJ89qK3sxRBC443S/chapter-divider_caa2d817.png" 
               alt="" 
               className="w-full max-w-2xl opacity-60 transform rotate-180"
             />

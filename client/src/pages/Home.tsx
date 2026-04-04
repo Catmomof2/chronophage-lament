@@ -50,7 +50,7 @@ export default function Home() {
         <div 
           className="absolute inset-0 opacity-30"
           style={{
-            backgroundImage: 'url(/images/hero-bg.png)',
+            backgroundImage: 'url(https://d2xsxph8kpxj0f.cloudfront.net/310519663262892493/4dPsFenJ89qK3sxRBC443S/hero-bg_45c7e0a7.png)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed'
@@ -226,7 +226,7 @@ export default function Home() {
         <div 
           className="absolute inset-0 opacity-20"
           style={{
-            backgroundImage: 'url(/images/about-bg.png)',
+            backgroundImage: 'url(https://d2xsxph8kpxj0f.cloudfront.net/310519663262892493/4dPsFenJ89qK3sxRBC443S/about-bg_5e8164e1.png)',
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}

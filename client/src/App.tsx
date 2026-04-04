@@ -9,7 +9,7 @@ import ChapterPage from "./pages/ChapterPage";
 import DonatePage from "./pages/DonatePage";
 import NewsletterPage from "./pages/NewsletterPage";
 import WallpapersPage from "./pages/WallpapersPage";
-import { Analytics } from "@vercel/analytics/react";
+// Vercel Analytics removed - package not installed
 
 
 function Router() {
@@ -41,7 +41,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
-          <Analytics />
+          {/* Analytics component removed */}
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
