@@ -89,11 +89,11 @@
     "tsx": "^4.19.1",
     "tw-animate-css": "^1.4.0",
     "typescript": "5.6.3",
-    "vite": "^7.1.7",
+    "vite": "^7.3.2",
     "vite-plugin-manus-runtime": "^0.0.57",
     "vitest": "^2.1.4"
   },
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af",
   "pnpm": {
     "patchedDependencies": {
       "wouter@3.7.1": "patches/wouter@3.7.1.patch"
@@ -104,7 +104,9 @@
       "lodash-es": "^4.17.21",
       "fast-xml-parser": ">=5.3.5",
       "axios": "^1.7.4",
-      "tar": ">=7.5.13", "rollup": ">=4.59.0"
+      "tar": ">=7.5.13",
+      "rollup": ">=4.59.0",
+      "vite": ">=7.3.2"
     }
   }
 }
