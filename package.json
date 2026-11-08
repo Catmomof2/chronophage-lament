@@ -94,7 +94,7 @@
     "vite-plugin-manus-runtime": "^0.0.57",
     "vitest": "^4.1.12"
   },
-  "packageManager": "pnpm@10.34.9+sha512-9JtajqD97bRLs8DB1ldQkqU8KVDZW3rRXfEfF5dId6LeOgHAfpNOmyjOcW5RwJqUlixzBtCb4uHksYqMh2L9Mg==",
+  "packageManager": "pnpm@10.34.9",
   "pnpm": {
     "patchedDependencies": {
       "wouter@3.7.1": "patches/wouter@3.7.1.patch"
