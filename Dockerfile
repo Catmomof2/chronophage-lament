@@ -13,6 +13,9 @@ FROM base AS build
 
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
+# pnpm needs the patch files at install time (package.json patchedDependencies
+# references patches/wouter@3.7.1.patch), so copy them before installing.
+COPY patches ./patches
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
@@ -36,6 +39,8 @@ ENV NODE_ENV=production
 # The 'dist' folder contains both the server (index.js) and the frontend (public/)
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json /app/pnpm-lock.yaml ./
+# Same as the build stage: the prod install needs the patch files too.
+COPY --from=build /app/patches ./patches
 
 # Install only production dependencies
 RUN pnpm install --prod --frozen-lockfile
