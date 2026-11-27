@@ -13,6 +13,7 @@ overrides:
   tar: '>=7.5.13'
   rollup: '>=4.59.0'
   vite: '>=7.3.2 <8.0.0'
+katex: 0.18.2
 
 patchedDependencies:
   wouter@3.7.1:
@@ -2937,8 +2938,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  katex@0.16.25:
-    resolution: {integrity: sha512-woHRUZ/iF23GBP1dkDQMh1QBad9dmr8/PAwNA54VrSOVYgI12MAcE14TqnDdQOdzyEonGzMepYnqBMYdsoAr8Q==}
+  katex@0.18.2:
+    resolution: {integrity: sha512-3snve4y0SXTMequLim1FMiPvLGElySam0blN5xQZBqEY3lOJz1TnuaaiugnBZBqHzlSAGmFTYL7MCQkORuLKCA==}
     hasBin: true
 
   khroma@2.1.0:
@@ -7067,7 +7068,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  katex@0.16.25:
+  katex@0.18.2:
     dependencies:
       commander: 8.3.0
 
@@ -7401,7 +7402,7 @@ snapshots:
       dayjs: 1.11.20
       dompurify: 3.5.0
       es-toolkit: 1.46.1
-      katex: 0.16.25
+      katex: 0.18.2
       khroma: 2.1.0
       marked: 16.4.1
       roughjs: 4.6.6
@@ -7494,7 +7495,7 @@ snapshots:
     dependencies:
       '@types/katex': 0.16.7
       devlop: 1.1.0
-      katex: 0.16.25
+      katex: 0.18.2
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
@@ -7910,7 +7911,7 @@ snapshots:
       '@types/katex': 0.16.7
       hast-util-from-html-isomorphic: 2.0.0
       hast-util-to-text: 4.0.2
-      katex: 0.16.25
+      katex: 0.18.2
       unist-util-visit-parents: 6.0.2
       vfile: 6.0.3
 
@@ -8105,7 +8106,7 @@ snapshots:
   streamdown@1.4.0(@types/react@19.2.1)(react@19.2.1):
     dependencies:
       clsx: 2.1.1
-      katex: 0.16.25
+      katex: 0.18.2
       lucide-react: 0.542.0(react@19.2.1)
       marked: 16.4.1
       mermaid: 11.15.0
